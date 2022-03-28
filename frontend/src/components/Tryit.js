@@ -1,11 +1,14 @@
 import React from "react";
 
+import DragAndDrop from '../utils/DragAndDrop'
+
 function Tryit () {
   return (
     <>
       <div>
-        Tryit
+        
       </div>
+      <DragAndDrop />
     </>
   );
 }
