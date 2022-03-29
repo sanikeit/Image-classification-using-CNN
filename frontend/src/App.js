@@ -8,6 +8,7 @@ import ModelAnalysis from './components/ModelAnalysis'
 import Tryit from './components/Tryit'
 import Documentation from './components/Documentation'
 import FrontPage from './components/FrontPage'
+import ScrollButton from './utils/ScrollButton'
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           </Routes>
         </div>
       </Router>
+      <ScrollButton />
     </>
   )
 }
