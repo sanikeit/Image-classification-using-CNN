@@ -56,6 +56,7 @@ function FrontPage() {
           </div>
         </div>
       </Fade>
+
       <div className="table-col">
         <div className="title-div">
           <h1>
@@ -93,6 +94,11 @@ function FrontPage() {
           <Slide direction="right">
             <div>
               <img src="/images/challenges.jpeg" alt="Challenges" />
+            </div>
+          </Slide>
+          <Slide direction="right">
+            <div>
+              <img src="/images/dogtiger.jpg" alt="Challenges" className="img1" />
             </div>
           </Slide>
         </div>
@@ -136,6 +142,7 @@ function FrontPage() {
           </Slide>
         </div>
       </div>
+
       <div className="table-col">
         <div className="title-div">
           <h1>
