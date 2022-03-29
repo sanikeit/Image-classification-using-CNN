@@ -6,6 +6,7 @@ import Navbar from './components/Navbar'
 
 import ModelAnalysis from './components/ModelAnalysis'
 import Tryit from './components/Tryit'
+import ML from './components/ML'
 import Documentation from './components/Documentation'
 import FrontPage from './components/FrontPage'
 import ScrollButton from './utils/ScrollButton'
@@ -22,6 +23,7 @@ function App() {
             <Route path="/" element={<FrontPage />} />
             <Route exact path="/ModelAnalysis" element={<ModelAnalysis />} />
             <Route path="/Tryit" element={<Tryit />} />
+            <Route path="/Tryit/ml" element={<><Tryit /><ML /></>} />            
             <Route path="/Documentation" element={<Documentation />} />
           </Routes>
         </div>

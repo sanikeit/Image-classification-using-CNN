@@ -25,13 +25,13 @@ function Navbar() {
         <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div className="navbar-nav">
             <Link to="/ModelAnalysis" className="cleanLink">
-              <span className="nav-item nav-link">ModelAnalysis</span>
+              <span className="nav-item nav-link">Analysis</span>
             </Link>
             <Link to="/Tryit" className="cleanLink">
-              <span className="nav-item nav-link">Tryit</span>
+              <span className="nav-item nav-link">Test</span>
             </Link>
             <Link to="/Documentation" className="cleanLink">
-              <span className="nav-item nav-link">Documentation</span>
+              <span className="nav-item nav-link">Docs</span>
             </Link>
           </div>
         </div>
