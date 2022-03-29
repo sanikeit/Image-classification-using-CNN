@@ -4,6 +4,7 @@ import './Navbar.css'
 
 function Navbar () {
   return (
+    <div className="high">
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <a className="navbar-brand" href="/">Navbar</a>
       <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -23,6 +24,7 @@ function Navbar () {
         </div>
       </div>
     </nav>
+    </div>
   );
 }
 

@@ -1,16 +1,14 @@
-import React from "react";
+import React from 'react'
 
 import DragAndDrop from '../utils/DragAndDrop'
 
-function Tryit () {
+function Tryit() {
   return (
     <>
-      <div>
-        
-      </div>
+      <div></div>
       <DragAndDrop />
     </>
-  );
+  )
 }
 
 export default Tryit

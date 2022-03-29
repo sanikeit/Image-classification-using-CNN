@@ -1,0 +1,53 @@
+.color1 {
+  background-color: rgba(238, 237, 237, 0.575);
+  padding: 20px;
+}
+
+.white_back {
+  height: 400px;
+  width: 100%;
+}
+
+.table {
+  display: flex;
+  justify-content: space-around;
+  flex-direction: row;
+  margin-bottom: 100px;
+}
+
+.table-col {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: column;
+  margin-bottom: 100px;
+}
+
+.title-div {
+  padding: 20px;
+}
+
+.img1 {
+  height: 500px;
+  width: 100%;
+}
+
+.img2 {
+  height: 200px;
+  width: 250px;
+}
+
+h1 {
+  padding: 20px 20px 40px 20px;
+  margin: 20px;
+}
+
+h2 {
+  padding: 30px;
+  font-weight: 200;
+}
+
+h3 {
+  font-weight: 100;
+  font-size: 20px;
+}
