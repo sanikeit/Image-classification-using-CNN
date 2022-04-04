@@ -12,10 +12,37 @@ function ML() {
   const [l3, setl3] = useState(null)
   const [loading, setLoading] = useState(true)
 
+  const firstFive = (arr) => {
+    const class_names = [
+      'airplane',
+      'automobile',
+      'bird',
+      'cat',
+      'deer',
+      'dog',
+      'frog',
+      'horse',
+      'ship',
+      'truck'
+    ]
+    let res = []
+    for (let i = 0; i < arr.length; i += 1) {
+      let percentage = parseFloat(arr[i]) * 100
+      res.push([percentage.toFixed(2), class_names[i]])
+    }
+
+    let sorted_arr = res.sort(function (a, b) {
+      return b[0] - a[0]
+    })
+
+    let ff = sorted_arr.slice(0, 4)
+    return ff
+  }
+
   useEffect(() => {
     if (filename.name)
       axios
-        .get('http://localhost:8000/vgg', {
+        .get('http://localhost:8000/lenet', {
           params: {
             name: filename.name
           }
@@ -35,11 +62,11 @@ function ML() {
                   }
                 })
                 .then((res) => {
-                  setl2(res.data.response)
+                  setl2(firstFive(res.data.response))
                 })
-              setl3(res.data.response)
+              setl3(firstFive(res.data.response))
             })
-          setl1(res.data.response)
+          setl1(firstFive(res.data.response))
         })
   }, [filename.name])
 
@@ -67,17 +94,41 @@ function ML() {
           <div>
             <h2>LeNet</h2>
             {Render1()}
-            <p>{l1}</p>
+            <p>
+              {l1.map(function (item, i) {
+                return (
+                  <li key={i}>
+                    {item[0]}% {item[1]}
+                  </li>
+                )
+              })}
+            </p>
           </div>
           <div>
             <h2>VGG16</h2>
             {Render2()}
-            <p>{l2}</p>
+            <p>
+              {l2.map(function (item, i) {
+                return (
+                  <li key={i}>
+                    {item[0]}% {item[1]}
+                  </li>
+                )
+              })}
+            </p>
           </div>
           <div>
             <h2>GoogleNet</h2>
             {Render3()}
-            <p>{l3}</p>
+            <p>
+              {l3.map(function (item, i) {
+                return (
+                  <li key={i}>
+                    {item[0]}% {item[1]}
+                  </li>
+                )
+              })}
+            </p>
           </div>
         </div>
       </div>

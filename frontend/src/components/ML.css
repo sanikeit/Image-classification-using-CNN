@@ -64,8 +64,13 @@ ul > li {
   padding: 10px 5px 5px 5px;
 }
 
+p > li {
+  color: green;
+}
+
 p {
   padding: 5px;
   margin-top: 10px;
   font-size: 1em;
+  border: 2px solid grey;
 }

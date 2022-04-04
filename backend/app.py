@@ -24,9 +24,16 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 # ================================================================================== #
 
 # utility definitions
-global graph, model
-model, graph = init()
+global lenet_model, vgg_model, googlenet_model
+class_names = ["airplane","automobile","bird","cat","deer","dog","frog","horse","ship","truck"]
 
+def init_models():
+    global lenet_model, vgg_model, googlenet_model
+    
+    lenet_model = load_model('model/Lenet.h5')
+    vgg_model = load_model('model/VGG16_model.h5')
+    googlenet_model = load_model('model/GoogleNet_model.h5')
+    
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -106,38 +113,37 @@ def learn():
     name = request.args.get('name')
     res = requests.get('http://localhost:8000/googlenet', params = {'name': name} )
     x = (res.json()['response'])
+    x = class_names[np.argmax(x)]
     res = requests.get('http://localhost:8000/vgg', params = {'name': name} )
     y = (res.json()['response'])
-    return render_template('learn.html', name = name, googlenet = x, vgg = y)
+    y = class_names[np.argmax(x)]
+    res = requests.get('http://localhost:8000/lenet', params = {'name': name} )
+    z = (res.json()['response'])
+    z = class_names[np.argmax(x)]
+    return render_template('learn.html', name = name, googlenet = x, vgg = y, lenet = z)
 
 # /googlenet
 # function to run googlenet cnn model on given data as get params
 
 @app.route('/googlenet',methods=['GET','POST'])
 def googlenet():
-  name = request.args.get('name')
-  x = cv2.imread('uploads/' + name, cv2.IMREAD_GRAYSCALE)
-  res = cv2.resize(x, dsize=(32, 32), interpolation=cv2.INTER_CUBIC)
-  res = res.reshape(1,32,32,1)
-  class_names = ["airplane","automobile","bird","cat","deer","dog","frog","horse","ship","truck"]
-  with graph.as_default():
-        json_file = open('model/model.json','r')
-        loaded_model_json = json_file.read()
-        json_file.close()
-        loaded_model = model_from_json(loaded_model_json)
-        #load weights into new model
-        loaded_model.load_weights("model/model.h5")
-        #compile and evaluate loaded model
-        loaded_model.compile(loss=['categorical_crossentropy', 'categorical_crossentropy', 'categorical_crossentropy'] ,optimizer='adam',metrics=['accuracy'])
-        # perform the prediction
-        out = loaded_model.predict(res)
-        out = np.array(out[0])
-        # convert the response to a string
-        response = class_names[np.argmax(out, axis=1)[0]]
-        return jsonify(
-            response=response,
-        )
-
+    name = request.args.get('name')
+    x = cv2.imread('uploads/' + name, cv2.IMREAD_GRAYSCALE)
+    res = cv2.resize(x, dsize=(32, 32), interpolation=cv2.INTER_CUBIC)
+    res = res.reshape(1,32,32,1)
+    
+    # load model
+    model = googlenet_model
+    trainX = np.array(res)
+    out = model.predict(trainX)
+    out = out[0]
+    out = np.array(out).reshape(-1)
+    # convert the response to a string
+    response = out.tolist()
+    return jsonify(
+        response=response,
+    )
+  
 # /vgg
 # function to run vgg cnn model on given data as get params
 
@@ -146,18 +152,39 @@ def vgg():
     name = request.args.get('name')
     x = cv2.imread('uploads/' + name)
     res = cv2.resize(x, dsize=(32, 32), interpolation=cv2.INTER_CUBIC)
-    class_names = ["airplane","automobile","bird","cat","deer","dog","frog","horse","ship","truck"]
     # load model
-    model = load_model('model/VGG16_model.h5')
+    model = vgg_model
     trainX = prep_pixels(res)
     trainX = np.array(trainX).reshape(1, 32, 32, 3)
     out = model.predict(trainX)
-    out = np.array(out)
+    out = np.array(out).reshape(-1)
     # convert the response to a string
-    response = class_names[np.argmax(out, axis=1)[0]]
+    response = out.tolist()
     return jsonify(
         response=response,
     )
+    
+    
+# /lenet
+# function to run lenet on given data as params
+
+@app.route('/lenet', methods=['GET', 'POST'])
+def lenet():
+    name = request.args.get('name')
+    x = cv2.imread('uploads/' + name)
+    res = cv2.resize(x, dsize=(32, 32), interpolation=cv2.INTER_CUBIC)
+    # load model
+    model = lenet_model
+    trainX = prep_pixels(res)
+    trainX = np.array(trainX).reshape(1, 32, 32, 3)
+    out = model.predict(trainX)
+    out = np.array(out).reshape(-1)    
+    # convert the response to a string
+    response = out.tolist()
+    return jsonify(
+        response=response,
+    )
+    
     
 # error handling route
     
@@ -168,4 +195,5 @@ def not_found(e):
 # ========================================================================== #
 
 if __name__ == '__main__':
+    init_models()
     app.run(debug=True, host='localhost', port=8000)
