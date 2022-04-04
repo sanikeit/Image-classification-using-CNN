@@ -95,39 +95,39 @@ function ML() {
             <h2>LeNet</h2>
             {Render1()}
             <p>
-              {l1.map(function (item, i) {
+              {l1 ? (l1.map(function (item, i) {
                 return (
                   <li key={i}>
                     {item[0]}% {item[1]}
                   </li>
                 )
-              })}
+              })) : l1}
             </p>
           </div>
           <div>
             <h2>VGG16</h2>
             {Render2()}
             <p>
-              {l2.map(function (item, i) {
+            {l2 ? (l2.map(function (item, i) {
                 return (
                   <li key={i}>
                     {item[0]}% {item[1]}
                   </li>
                 )
-              })}
+              })) : l2}
             </p>
           </div>
           <div>
             <h2>GoogleNet</h2>
             {Render3()}
             <p>
-              {l3.map(function (item, i) {
+            {l3 ? (l3.map(function (item, i) {
                 return (
                   <li key={i}>
                     {item[0]}% {item[1]}
                   </li>
                 )
-              })}
+              })) : l3}
             </p>
           </div>
         </div>
