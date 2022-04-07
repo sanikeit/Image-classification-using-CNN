@@ -116,10 +116,10 @@ def learn():
     x = class_names[np.argmax(x)]
     res = requests.get('http://localhost:8000/vgg', params = {'name': name} )
     y = (res.json()['response'])
-    y = class_names[np.argmax(x)]
+    y = class_names[np.argmax(y)]
     res = requests.get('http://localhost:8000/lenet', params = {'name': name} )
     z = (res.json()['response'])
-    z = class_names[np.argmax(x)]
+    z = class_names[np.argmax(z)]
     return render_template('learn.html', name = name, googlenet = x, vgg = y, lenet = z)
 
 # /googlenet
@@ -140,6 +140,7 @@ def googlenet():
     out = np.array(out).reshape(-1)
     # convert the response to a string
     response = out.tolist()
+    print (response)
     return jsonify(
         response=response,
     )
